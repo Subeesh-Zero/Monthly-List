@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Monthly List Tracker — Professional</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #34495e;
+      --accent: #3498db;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --light-bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-primary: #2c3e50;
+      --text-muted: #7f8c8d;
+      --border-color: #e0e0e0;
+    }
+
+    body {
+      background: var(--light-bg);
+      color: var(--text-primary);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      padding-top: 80px;
+      scroll-behavior: smooth;
+    }
+
+    /* Professional Navbar Styles */
+    .navbar-professional {
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      padding: 0.7rem 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand i {
+      margin-right: 0.5rem;
+      font-size: 1.8rem;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.85) !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      border-radius: 6px;
+      margin: 0 0.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link:focus {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white !important;
+    }
+
+    .navbar-toggler {
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .section-anchor {
+      display: block;
+      position: relative;
+      top: -90px;
+      visibility: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      color: white;
+      font-weight: 600;
+      border-bottom: none;
+      padding: 1rem 1.5rem;
+    }
+
+    .card-header.collapsed {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .small-muted {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .currency {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, var(--secondary), var(--primary));
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline-primary, .btn-outline-danger {
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline-primary:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-danger:hover {
+      background: var(--danger);
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 0.7rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+
+    .table th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      border-top: none;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .table td {
+      vertical-align: middle;
+      padding: 1rem 0.75rem;
+    }
+
+    .badge-month {
+      background: rgba(52, 152, 219, 0.1);
+      color: var(--accent);
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+    }
+
+    .modal-content {
+      border-radius: 12px;
+      border: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+      background: linear-gradient(120deg, var(--primary), var(--secondary));
+      color: white;
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border-color);
+      padding: 1rem 1.5rem;
+    }
+
+    .spinner-border-sm {
+      width: 1rem;
+      height: 1rem;
+      border-width: 2px;
+    }
+
+    .list-group-item {
+      border-color: var(--border-color);
+      padding: 1rem 1.25rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .list-group-item:hover {
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+
+    .table-hover tbody tr:hover {
+      background: rgba(52, 152, 219, 0.03);
+    }
+
+    .stats-card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stats-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .section-title {
+      position: relative;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    .collapsible-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .collapsible-section .card-header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .list-item-animate {
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      border-radius: 12px;
+    }
+
+    /* Initial loading screen */
+    #initialLoading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+      transition: opacity 0.5s ease;
+    }
+
+    .initial-loading-content {
+      text-align: center;
+      color: white;
+    }
+
+    .initial-loading-content h3 {
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .initial-loading-content p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .loading-spinner {
+      width: 4rem;
+      height: 4rem;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-bottom: 1.5rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Progress bar for data loading */
+    .progress-container {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1040;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--accent), var(--success));
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* All Items Table Styles */
+    .table-responsive {
+      border-radius: 8px;
+    }
+
+    .table thead tr {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .table thead th {
+      border: none;
+      padding: 1rem 0.75rem;
+    }
+
+    .filter-controls {
+      background-color: var(--light-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 992px) {
+      .card-header {
+        padding: 0.875rem 1.25rem;
+      }
+      
+      .stats-number {
+        font-size: 1.75rem;
+      }
+
+      .navbar-collapse {
+        background: linear-gradient(120deg, var(--primary), var(--secondary));
+        padding: 1rem;
+        border-radius: 0 0 12px 12px;
+        margin-top: 0.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      .card {
+        margin-bottom: 1.25rem;
+      }
+      
+      .row.g-4 {
+        gap: 1rem !important;
+      }
+      
+      .col-md-5, .col-md-7 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      
+      .form .col-md-4, .form .col-md-2, .form .col-md-3, .form .col-md-1 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 0.75rem;
+      }
+      
+      .d-flex.gap-2 {
+        flex-direction: column;
+        gap: 0.5rem !important;
+      }
+      
+      .table-responsive {
+        overflow-x: auto;
+      }
+      
+      .btn-group {
+        width: 100%;
+      }
+      
+      .btn-group .btn {
+        flex: 1;
+      }
+      
+      .stats-card {
+        padding: 1.25rem 0.5rem;
+      }
+      
+      .stats-number {
+        font-size: 1.5rem;
+      }
+
+      body {
+        padding-top: 70px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container.py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+      }
+      
+      .modal-dialog {
+        margin: 0.5rem;
+      }
+      
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Initial Loading Screen -->
+  <div id="initialLoading">
+    <div class="loading-spinner"></div>
+    <div class="initial-loading-content">
+      <h3><i class="fas fa-list-check me-2"></i>Monthly Tracker</h3>
+      <p>Loading your financial data...</p>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container" id="topProgressBar">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Professional Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-professional">
+    <div class="container">
+      <a class="navbar-brand text-white" href="#">
+        <i class="fas fa-list-check"></i>Monthly Tracker
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#dashboard-overview"><i class="fas fa-home me-1"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#add-new-item"><i class="fas fa-plus-circle me-1"></i> Add New</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#current-month"><i class="fas fa-calendar-alt me-1"></i> Current Month</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#monthly-history"><i class="fas fa-history me-1"></i> Monthly History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#all-items"><i class="fas fa-list me-1"></i> All Items</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <!-- Dashboard Overview Section -->
+    <span class="section-anchor" id="dashboard-overview"></span>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3 class="mb-1 fw-bold">Dashboard Overview</h3>
+        <div class="small-muted">Track and manage your monthly expenses</div>
+      </div>
+      <div>
+        <div id="topLoading" class="small-muted d-none"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...</div>
+      </div>
+    </div>
+
+    <!-- Stats Summary -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-6">
+        <div class="card stats-card">
+          <div class="stats-number" id="totalItems">0</div>
+          <div class="stats-label">Total Items</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card stats-card">
+          <div class="stats-number" id="monthItems">0</div>
+          <div class="stats-label">This Month</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card stats-card">
+          <div class="stats-number" id="totalValue">₹0</div>
+          <div class="stats-label">Total Value</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card stats-card">
+          <div class="stats-number" id="monthValue">₹0</div>
+          <div class="stats-label">Month Value</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Add New Item Section -->
+      <div class="col-12">
+        <span class="section-anchor" id="add-new-item"></span>
+        <div class="card">
+          <div class="card-header" data-bs-toggle="collapse" data-bs-target="#addFormSection">
+            <span><i class="fas fa-plus-circle me-2"></i>Add New Item</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="collapse show" id="addFormSection">
+            <div class="card-body">
+              <form id="addForm" class="row g-3 align-items-center">
+                <div class="col-md-4">
+                  <label for="addItem" class="form-label small-muted">Item Name</label>
+                  <input id="addItem" class="form-control" placeholder="Enter item name" required />
+                </div>
+                <div class="col-md-2">
+                  <label for="addDate" class="form-label small-muted">Date</label>
+                  <input id="addDate" type="date" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                  <label for="addPrice" class="form-label small-muted">Rate (₹)</label>
+                  <input id="addPrice" type="number" step="0.01" class="form-control" placeholder="0.00" required />
+                </div>
+                <div class="col-md-3">
+                  <label for="addNotes" class="form-label small-muted">Notes</label>
+                  <input id="addNotes" class="form-control" placeholder="Optional notes" />
+                </div>
+                <div class="col-md-1 d-grid align-self-end">
+                  <button id="btnAdd" class="btn btn-primary" type="submit">
+                    <span id="btnAddText">Add</span>
+                    <span id="btnAddSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Month Section -->
+      <div class="col-md-5">
+        <span class="section-anchor" id="current-month"></span>
+        <div class="card h-100">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-calendar-alt me-2"></i>Current Month</span>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 id="currentMonthTitle" class="mb-0 fw-semibold">—</h5>
+              </div>
+              <div class="text-end">
+                <div class="small-muted">Total</div>
+                <div id="currentTotal" class="fs-5 currency">₹0</div>
+              </div>
+            </div>
+
+            <div id="currentListWrap" style="min-height:180px; position: relative;">
+              <div id="currentLoading" class="loading-overlay d-none">
+                <div class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <p class="mt-2 text-muted">Loading current month data...</p>
+                  </div>
+              </div>
+              <ul id="currentList" class="list-group list-group-flush"></ul>
+              <div id="noCurrent" class="no-items text-center small-muted py-5">
+                <i class="fas fa-inbox fa-2x mb-2"></i>
+                <p>No items for this month</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Section -->
+      <div class="col-md-7">
+        <span class="section-anchor" id="monthly-history"></span>
+        <div class="card">
+          <div class="card-header collapsible-section" data-bs-toggle="collapse" data-bs-target="#historySection">
+            <span><i class="fas fa-history me-2"></i>Monthly History</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="collapse show" id="historySection">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center gap-2 w-100">
+                  <select id="historyFilter" class="form-select form-select-sm"></select>
+                  <button id="btnFilter" class="btn btn-outline-primary btn-sm">Show</button>
+                </div>
+              </div>
+
+              <div id="historyContainer" style="max-height:360px; overflow:auto; position: relative;">
+                <div id="historyLoading" class="loading-overlay d-none">
+                  <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Loading history data...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- All Items Section -->
+      <div class="col-12">
+        <span class="section-anchor" id="all-items"></span>
+        <div class="card">
+          <div class="card-header collapsible-section" data-bs-toggle="collapse" data-bs-target="#allItemsSection">
+            <span><i class="fas fa-list me-2"></i>All Items</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="collapse show" id="allItemsSection">
+            <div class="card-body">
+              <div class="filter-controls">
+                <div class="row g-3">
+                  <div class="col-md-3">
+                    <label class="form-label small-muted">Filter by Month</label>
+                    <select id="allItemsMonthFilter" class="form-select">
+                      <option value="all">All Months</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label small-muted">Sort By</label>
+                    <select id="allItemsSort" class="form-select">
+                      <option value="date-desc">Date (Newest First)</option>
+                      <option value="date-asc">Date (Oldest First)</option>
+                      <option value="price-desc">Price (High to Low)</option>
+                      <option value="price-asc">Price (Low to High)</option>
+                      <option value="name">Name (A-Z)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small-muted">Search</label>
+                    <input type="text" id="allItemsSearch" class="form-control" placeholder="Search items...">
+                  </div>
+                  <div class="col-md-2 d-flex align-items-end">
+                    <button id="resetFilters" class="btn btn-outline-secondary w-100">Reset</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div id="allItemsContainer" style="max-height:500px; overflow:auto; position: relative;">
+                <div id="allItemsLoading" class="loading-overlay d-none">
+                  <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Loading all items...</p>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Item</th>
+                        <th>Notes</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="allItemsList">
+                    </tbody>
+                  </table>
+                </div>
+                <div id="noAllItems" class="no-items text-center small-muted py-5 d-none">
+                  <i class="fas fa-inbox fa-2x mb-2"></i>
+                  <p>No items found</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content">
+        <form id="editForm">
+          <div class="modal-header">
+            <h5 class="modal-title fw-semibold"><i class="fas fa-edit me-2"></i>Edit Item</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editId" />
+            <div class="mb-3">
+              <label class="form-label fw-medium">Item</label>
+              <input id="editItemName" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Date</label>
+              <input id="editItemDate" type="date" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Price</label>
+              <input id="editItemPrice" type="number" step="0.01" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-medium">Notes</label>
+              <input id="editItemNotes" class="form-control" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="btnDeleteModal" type="button" class="btn btn-outline-danger">
+              <i class="fas fa-trash-alt me-1"></i> Delete
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="btnSave" type="submit" class="btn btn-primary">
+              <span id="btnSaveText"><i class="fas fa-save me-1"></i> Save</span>
+              <span id="btnSaveSpinner" class="spinner-border spinner-border-sm d-none"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body text-center py-4">
+          <div class="mb-3">
+            <i class="fas fa-exclamation-triangle text-danger fa-2x"></i>
+          </div>
+          <p class="mb-0 fw-medium">Are you sure you want to delete this item?</p>
+          <div class="small-muted mt-2">This action cannot be undone.</div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button id="cancelDel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="confirmDelBtn" type="button" class="btn btn-danger">
+            <span id="confirmDelText">Delete</span>
+            <span id="confirmDelSpinner" class="spinner-border spinner-border-sm d-none"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ----------------- CONFIG -----------------
+    const API_URL = "https://script.google.com/macros/s/AKfycby809xWfSNC7s3I-Fan-yBUUKei4UYNz6nbLAcVGOpMCFGNz0KGZj3ZVFyMmKqyROBA/exec";
+    // ------------------------------------------
+
+    // Local state
+    let allItems = [];
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+    let pendingDeleteId = null;
+
+    // Set default date in add form to current date
+    document.getElementById('addDate').value = new Date().toISOString().slice(0,10);
+
+    // Helpers
+    function formatCurrency(v) {
+      v = Number(v) || 0;
+      return "₹" + v.toFixed(2);
+    }
+    
+    function fmtDateISO(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      const day = d.getDate().toString().padStart(2, '0');
+      const mon = (d.getMonth() + 1).toString().padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${mon}/${year}`;
+    }
+    
+    function monthPretty(yyyyMm) {
+      if (!yyyyMm) return yyyyMm;
+      const parts = yyyyMm.split("-");
+      const dt = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+      return dt.toLocaleString(undefined, { month: "long", year: "numeric" });
+    }
+    
+    function showTopLoading(show) {
+      document.getElementById('topLoading').classList.toggle('d-none', !show);
+    }
+    
+    function updateStats() {
+      // Update stats cards
+      document.getElementById('totalItems').textContent = allItems.length;
+      
+      const yyyyMm = new Date().toISOString().slice(0,7);
+      const currentItems = allItems.filter(i => i.date && i.date.slice(0,7) === yyyyMm);
+      document.getElementById('monthItems').textContent = currentItems.length;
+      
+      const totalValue = allItems.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+      document.getElementById('totalValue').textContent = formatCurrency(totalValue);
+      
+      const monthValue = currentItems.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
+      document.getElementById('monthValue').textContent = formatCurrency(monthValue);
+    }
+
+    // Show progress bar
+    function showProgress(show) {
+      const progressContainer = document.getElementById('topProgressBar');
+      const progressBar = document.getElementById('progressBar');
+      
+      if (show) {
+        progressContainer.style.display = 'block';
+        progressBar.style.width = '30%';
+      } else {
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+          progressContainer.style.display = 'none';
+          progressBar.style.width = '0%';
+        }, 300);
+      }
+    }
+
+    // Show loading overlay for specific sections
+    function showSectionLoading(section, show) {
+      const loadingEl = document.getElementById(section + 'Loading');
+      if (loadingEl) {
+        loadingEl.classList.toggle('d-none', !show);
+      }
+    }
+
+    // Fetch all items from server
+    async function fetchAll() {
+      try {
+        showTopLoading(true);
+        showProgress(true);
+        showSectionLoading('current', true);
+        showSectionLoading('history', true);
+        showSectionLoading('allItems', true);
+        
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        
+        if (data.success) {
+          allItems = (data.items || []).map(i => ({
+            id: i.id,
+            item: i.item,
+            notes: i.notes,
+            price: Number(i.price || 0),
+            date: i.date
+          }));
+          updateStats();
+          renderAll();
+        } else {
+          alert('Failed to load: ' + (data.error || 'unknown'));
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Failed to load data: ' + err);
+      } finally {
+        showTopLoading(false);
+        showProgress(false);
+        showSectionLoading('current', false);
+        showSectionLoading('history', false);
+        showSectionLoading('allItems', false);
+        
+        // Hide initial loading screen
+        document.getElementById('initialLoading').style.opacity = '0';
+        setTimeout(() => {
+          document.getElementById('initialLoading').style.display = 'none';
+        }, 500);
+      }
+    }
+
+    // Render UI pieces
+    function renderAll() {
+      renderCurrent();
+      renderHistory();
+      renderAllItems();
+      populateHistoryFilter();
+      populateMonthFilter();
+    }
+
+    function renderCurrent() {
+      const curMonth = new Date().toLocaleString('default', { month: 'long', year: 'numeric' });
+      document.getElementById('currentMonthTitle').innerText = curMonth;
+      const yyyyMm = new Date().toISOString().slice(0,7);
+      const currentItems = allItems.filter(i => i.date && i.date.slice(0,7) === yyyyMm);
+      const list = document.getElementById('currentList');
+      list.innerHTML = '';
+      
+      if (currentItems.length === 0) {
+        document.getElementById('noCurrent').classList.remove('d-none');
+      } else {
+        document.getElementById('noCurrent').classList.add('d-none');
+        currentItems.forEach((it, index) => {
+          const el = document.createElement('li');
+          el.className = 'list-group-item d-flex justify-content-between align-items-start list-item-animate';
+          el.style.animationDelay = `${index * 0.05}s`;
+          el.innerHTML = `
+            <div class="flex-grow-1">
+              <div class="fw-semibold">${escapeHtml(it.item)}</div>
+              <div class="small-muted">${escapeHtml(it.notes || '')}</div>
+            </div>
+            <div class="text-end ms-3">
+              <div class="currency">${formatCurrency(it.price)}</div>
+              <div class="small-muted small">${fmtDateISO(it.date)}</div>
+              <div class="mt-2 btn-group btn-group-sm">
+                <button class="btn btn-outline-primary" onclick="openEdit('${it.id}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-outline-danger" onclick="promptDelete('${it.id}')"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </div>`;
+          list.appendChild(el);
+        });
+      }
+      const total = currentItems.reduce((s,x) => s + Number(x.price || 0), 0);
+      document.getElementById('currentTotal').innerText = formatCurrency(total);
+    }
+
+    function renderHistory(selectedMonth = 'all') {
+      const container = document.getElementById('historyContainer');
+      const curYyyymm = new Date().toISOString().slice(0,7);
+      const historyItems = allItems.filter(i => i.date && i.date.slice(0,7) !== curYyyymm);
+      
+      if (selectedMonth === 'all') {
+        // Group by month
+        const grouped = {};
+        historyItems.forEach(it => { 
+          const m = it.date.slice(0,7);
+          grouped[m] = grouped[m] || []; 
+          grouped[m].push(it); 
+        });
+        const months = Object.keys(grouped).sort((a,b) => b.localeCompare(a)); // desc
+        
+        if (months.length === 0) {
+          container.innerHTML = '<div class="text-center small-muted py-3"><i class="fas fa-inbox fa-2x mb-2"></i><p>No historical data available</p></div>';
+          return;
+        }
+        
+        container.innerHTML = months.map(m => {
+          const items = grouped[m];
+          const total = items.reduce((s,it) => s + Number(it.price || 0), 0);
+          return `<div class="card mb-3">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div><span class="badge-month">${monthPretty(m)}</span></div>
+                <div class="small-muted">Total: <strong>${formatCurrency(total)}</strong></div>
+              </div>
+              <ul class="list-group list-group-flush">
+                ${items.map(it => `<li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div class="flex-grow-1">
+                    <div class="fw-semibold">${escapeHtml(it.item)}</div>
+                    <div class="small-muted">${escapeHtml(it.notes || '')}</div>
+                  </div>
+                  <div class="text-end small-muted ms-3">
+                    <div>${formatCurrency(it.price)}</div>
+                    <div class="small">${fmtDateISO(it.date)}</div>
+                  </div>
+                </li>`).join('')}
+              </ul>
+            </div>
+          </div>`; 
+        }).join('');
+      } else {
+        // Render only selected month
+        const items = allItems.filter(i => i.date && i.date.slice(0,7) === selectedMonth);
+        const total = items.reduce((s,i) => s + Number(i.price || 0), 0);
+        
+        if (items.length === 0) {
+          container.innerHTML = '<div class="text-center small-muted py-3"><i class="fas fa-inbox fa-2x mb-2"></i><p>No data for selected month</p></div>';
+          return;
+        }
+        
+        container.innerHTML = `<div class="card mb-3"><div class="card-body p-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div><span class="badge-month">${monthPretty(selectedMonth)}</span></div>
+            <div class="small-muted">Total: <strong>${formatCurrency(total)}</strong></div>
+          </div>
+          <ul class="list-group list-group-flush">
+            ${items.map(it => `<li class="list-group-item d-flex justify-content-between align-items-center">
+              <div class="flex-grow-1">
+                <div class="fw-semibold">${escapeHtml(it.item)}</div>
+                <div class="small-muted">${escapeHtml(it.notes || '')}</div>
+              </div>
+              <div class="text-end small-muted ms-3">
+                <div>${formatCurrency(it.price)}</div>
+                <div class="small">${fmtDateISO(it.date)}</div>
+              </div>
+            </li>`).join('')}
+          </ul>
+        </div></div>`;
+      }
+    }
+
+    function renderAllItems() {
+      const container = document.getElementById('allItemsList');
+      const noItems = document.getElementById('noAllItems');
+      const monthFilter = document.getElementById('allItemsMonthFilter').value;
+      const sortBy = document.getElementById('allItemsSort').value;
+      const searchTerm = document.getElementById('allItemsSearch').value.toLowerCase();
+      
+      // Filter items
+      let filteredItems = [...allItems];
+      
+      // Apply month filter
+      if (monthFilter !== 'all') {
+        filteredItems = filteredItems.filter(item => item.date && item.date.startsWith(monthFilter));
+      }
+      
+      // Apply search filter
+      if (searchTerm) {
+        filteredItems = filteredItems.filter(item => 
+          item.item.toLowerCase().includes(searchTerm) || 
+          (item.notes && item.notes.toLowerCase().includes(searchTerm))
+        );
+      }
+      
+      // Apply sorting
+      switch(sortBy) {
+        case 'date-desc':
+          filteredItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case 'date-asc':
+          filteredItems.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        case 'price-desc':
+          filteredItems.sort((a, b) => b.price - a.price);
+          break;
+        case 'price-asc':
+          filteredItems.sort((a, b) => a.price - b.price);
+          break;
+        case 'name':
+          filteredItems.sort((a, b) => a.item.localeCompare(b.item));
+          break;
+      }
+      
+      // Render items
+      if (filteredItems.length === 0) {
+        container.innerHTML = '';
+        noItems.classList.remove('d-none');
+      } else {
+        noItems.classList.add('d-none');
+        container.innerHTML = filteredItems.map(item => `
+          <tr>
+            <td>${fmtDateISO(item.date)}</td>
+            <td class="fw-semibold">${escapeHtml(item.item)}</td>
+            <td>${escapeHtml(item.notes || '')}</td>
+            <td class="currency">${formatCurrency(item.price)}</td>
+            <td>
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-primary" onclick="openEdit('${item.id}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-outline-danger" onclick="promptDelete('${item.id}')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    function populateHistoryFilter() {
+      const sel = document.getElementById('historyFilter');
+      const curYyyymm = new Date().toISOString().slice(0,7);
+      const months = Array.from(new Set(allItems.map(i => i.date && i.date.slice(0,7))))
+        .filter(m => m && m !== curYyyymm)
+        .sort((a,b) => b.localeCompare(a));
+      sel.innerHTML = '<option value="all">All Months</option>';
+      months.forEach(m => sel.innerHTML += `<option value="${m}">${monthPretty(m)}</option>`);
+    }
+
+    function populateMonthFilter() {
+      const sel = document.getElementById('allItemsMonthFilter');
+      const months = Array.from(new Set(allItems.map(i => i.date && i.date.slice(0,7))))
+        .filter(m => m)
+        .sort((a,b) => b.localeCompare(a));
+      
+      // Keep the "All Months" option and add the unique months
+      const allMonthsOption = '<option value="all">All Months</option>';
+      const monthOptions = months.map(m => `<option value="${m}">${monthPretty(m)}</option>`).join('');
+      sel.innerHTML = allMonthsOption + monthOptions;
+    }
+
+    // ----------------- Actions: Add / Update / Delete -----------------
+
+    // Add form submit (optimistic UI + server call)
+    document.getElementById('addForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const item = document.getElementById('addItem').value.trim();
+      const dateStr = document.getElementById('addDate').value;
+      const price = Number(document.getElementById('addPrice').value) || 0;
+      const notes = document.getElementById('addNotes').value.trim();
+      if (!item) return alert('Enter item');
+      if (!dateStr) return alert('Enter date');
+
+      // show add spinner
+      document.getElementById('btnAddText').classList.add('d-none');
+      document.getElementById('btnAddSpinner').classList.remove('d-none');
+      // optimistic UI entry (temp id)
+      const tempId = 'temp_' + Date.now();
+      const tempDate = new Date(dateStr).toISOString();
+      const tempItem = { id: tempId, item, notes, price, date: tempDate };
+      allItems.push(tempItem);
+      updateStats();
+      renderAll();
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'add', item, date: dateStr, notes, price })
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          // replace temp item id with real id and date from server
+          const idx = allItems.findIndex(x => x.id === tempId);
+          if (idx !== -1) {
+            allItems[idx].id = data.id;
+            allItems[idx].date = data.date || allItems[idx].date;
+          }
+        } else {
+          // revert temp item and show error
+          allItems = allItems.filter(x => x.id !== tempId);
+          alert('Failed to add: ' + (data && data.error ? data.error : 'unknown'));
+        }
+      } catch (err) {
+        allItems = allItems.filter(x => x.id !== tempId);
+        alert('Add failed: ' + err);
+      } finally {
+        // reset add controls + spinner
+        document.getElementById('addItem').value = '';
+        document.getElementById('addDate').value = new Date().toISOString().slice(0,10);
+        document.getElementById('addPrice').value = '';
+        document.getElementById('addNotes').value = '';
+        document.getElementById('btnAddText').classList.remove('d-none');
+        document.getElementById('btnAddSpinner').classList.add('d-none');
+        // refresh from server to ensure consistency
+        await fetchAll();
+      }
+    });
+
+    // Open edit modal
+    window.openEdit = function(id) {
+      const it = allItems.find(x => x.id === id);
+      if (!it) { alert('Item not found'); return; }
+      document.getElementById('editId').value = it.id;
+      document.getElementById('editItemName').value = it.item;
+      document.getElementById('editItemDate').value = it.date ? it.date.slice(0,10) : '';
+      document.getElementById('editItemPrice').value = it.price;
+      document.getElementById('editItemNotes').value = it.notes || '';
+      document.getElementById('btnSaveText').classList.remove('d-none');
+      document.getElementById('btnSaveSpinner').classList.add('d-none');
+      editModal.show();
+    };
+
+    // Edit save
+    document.getElementById('editForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const id = document.getElementById('editId').value;
+      const item = document.getElementById('editItemName').value.trim();
+      const dateStr = document.getElementById('editItemDate').value;
+      const price = Number(document.getElementById('editItemPrice').value) || 0;
+      const notes = document.getElementById('editItemNotes').value.trim();
+      if (!item) return alert('Enter item');
+      if (!dateStr) return alert('Enter date');
+
+      // show spinner
+      document.getElementById('btnSaveText').classList.add('d-none');
+      document.getElementById('btnSaveSpinner').classList.remove('d-none');
+
+      // optimistic update local
+      const idx = allItems.findIndex(x => x.id === id);
+      const original = idx !== -1 ? { ...allItems[idx] } : null;
+      if (idx !== -1) {
+        allItems[idx].item = item;
+        allItems[idx].date = new Date(dateStr).toISOString();
+        allItems[idx].price = price;
+        allItems[idx].notes = notes;
+        updateStats();
+        renderAll();
+      }
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'update', id, item, date: dateStr, price, notes })
+        });
+        const data = await res.json();
+        if (!(data && data.success)) {
+          throw new Error(data && data.error ? data.error : 'Update failed');
+        }
+        editModal.hide();
+      } catch (err) {
+        // revert if failure
+        if (original && idx !== -1) { allItems[idx] = original; updateStats(); renderAll(); }
+        alert('Update failed: ' + err);
+      } finally {
+        document.getElementById('btnSaveText').classList.remove('d-none');
+        document.getElementById('btnSaveSpinner').classList.add('d-none');
+        await fetchAll();
+      }
+    });
+
+    // Delete flow: prompt + confirmed delete
+    window.promptDelete = function(id) {
+      pendingDeleteId = id;
+      document.getElementById('confirmDelText').classList.remove('d-none');
+      document.getElementById('confirmDelSpinner').classList.add('d-none');
+      confirmDeleteModal.show();
+    };
+
+    document.getElementById('confirmDelBtn').addEventListener('click', async function() {
+      if (!pendingDeleteId) return;
+      // show spinner on confirm
+      document.getElementById('confirmDelText').classList.add('d-none');
+      document.getElementById('confirmDelSpinner').classList.remove('d-none');
+
+      // optimistic remove
+      const originalItems = [...allItems];
+      allItems = allItems.filter(x => x.id !== pendingDeleteId);
+      updateStats();
+      renderAll();
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'delete', id: pendingDeleteId })
+        });
+        const data = await res.json();
+        if (!(data && data.success)) {
+          throw new Error(data && data.error ? data.error : 'Delete failed');
+        }
+        pendingDeleteId = null;
+        confirmDeleteModal.hide();
+      } catch (err) {
+        // revert on error
+        allItems = originalItems;
+        updateStats();
+        alert('Delete failed: ' + err);
+      } finally {
+        document.getElementById('confirmDelText').classList.remove('d-none');
+        document.getElementById('confirmDelSpinner').classList.add('d-none');
+        await fetchAll();
+      }
+    });
+
+    // Delete from edit modal
+    document.getElementById('btnDeleteModal').addEventListener('click', function() {
+      const id = document.getElementById('editId').value;
+      editModal.hide();
+      promptDelete(id);
+    });
+
+    // Filter by month button
+    document.getElementById('btnFilter').addEventListener('click', function() {
+      const val = document.getElementById('historyFilter').value;
+      showSectionLoading('history', true);
+      setTimeout(() => {
+        renderHistory(val);
+        showSectionLoading('history', false);
+      }, 300);
+    });
+
+    // All items filter handlers
+    document.getElementById('allItemsMonthFilter').addEventListener('change', function() {
+      renderAllItems();
+    });
+
+    document.getElementById('allItemsSort').addEventListener('change', function() {
+      renderAllItems();
+    });
+
+    document.getElementById('allItemsSearch').addEventListener('input', function() {
+      renderAllItems();
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', function() {
+      document.getElementById('allItemsMonthFilter').value = 'all';
+      document.getElementById('allItemsSort').value = 'date-desc';
+      document.getElementById('allItemsSearch').value = '';
+      renderAllItems();
+    });
+
+    // Utility escape
+    function escapeHtml(s) {
+      if (s === null || s === undefined) return '';
+      return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+    }
+
+    // Make collapsible sections work
+    document.querySelectorAll('.collapsible-section').forEach(section => {
+      section.addEventListener('click', function() {
+        const icon = this.querySelector('.fa-chevron-down');
+        if (icon) {
+          icon.classList.toggle('fa-rotate-180');
+        }
+      });
+    });
+
+    // Navigation functionality
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        const targetElement = document.querySelector(`#${targetId}`);
+        
+        if (targetElement) {
+          // Calculate offset for fixed navbar
+          const navbarHeight = document.querySelector('.navbar').offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          // Handle collapsible sections
+          if (targetId === 'add-new-item' || targetId === 'monthly-history' || targetId === 'all-items') {
+            const sectionId = targetId === 'add-new-item' ? 'addFormSection' : 
+                             targetId === 'monthly-history' ? 'historySection' : 'allItemsSection';
+            const section = document.getElementById(sectionId);
+            if (section && section.classList.contains('collapse') && !section.classList.contains('show')) {
+              new bootstrap.Collapse(section, { toggle: true }).show();
+              // Adjust scroll position after section expands
+              setTimeout(() => {
+                const updatedPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+                window.scrollTo({
+                  top: updatedPosition,
+                  behavior: 'smooth'
+                });
+              }, 300); // Wait for collapse animation
+            }
+          }
+        }
+      });
+    });
+
+    // Initial load
+    async function init() {
+      // Show initial loading screen for a minimum time for better UX
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await fetchAll();
+    }
+    init();
+  </script>
+</body>
+</html>
